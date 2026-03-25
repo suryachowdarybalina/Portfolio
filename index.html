@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Surya Balina — QA Engineer · Clinical Systems</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:ital,wght@0,300;0,400;1,300&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #080c0a; --surface: #0f1410; --surface2: #141a15;
+    --border: rgba(255,255,255,0.07); --border-bright: rgba(255,255,255,0.15);
+    --text-primary: #eef2ee; --text-secondary: #7a8f7c; --text-muted: #3d4d3e;
+    --accent: #4eff91; --accent-dim: rgba(78,255,145,0.08); --accent-mid: rgba(78,255,145,0.2);
+    --gold: #d4a96a; --mono: 'DM Mono', monospace; --serif: 'Instrument Serif', serif; --display: 'Bebas Neue', sans-serif;
+  }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--text-primary); font-family: var(--mono); font-size: 13px; line-height: 1.6; overflow-x: hidden; }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 48px; border-bottom: 1px solid var(--border);
+    background: rgba(8,12,10,0.92); backdrop-filter: blur(16px);
+  }
+  .nav-logo { font-family: var(--display); font-size: 24px; letter-spacing: 0.06em; color: var(--text-primary); text-decoration: none; }
+  .nav-logo span { color: var(--accent); }
+  .nav-links { display: flex; gap: 36px; }
+  .nav-links a { color: var(--text-secondary); text-decoration: none; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--accent); }
+  .nav-badge { display: flex; align-items: center; gap: 8px; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); border: 1px solid rgba(78,255,145,0.3); padding: 7px 16px; }
+  .nav-badge::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); animation: blink 1.8s infinite; }
+
+  .hero {
+    min-height: 100vh; display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 140px 48px 64px; border-bottom: 1px solid var(--border); position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: ''; position: absolute; inset: 0;
+    background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 40%, transparent 100%);
+  }
+  .hero-eyebrow { font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin-bottom: 24px; display: flex; align-items: center; gap: 14px; }
+  .hero-eyebrow::before { content:''; width: 40px; height: 1px; background: var(--accent); }
+  .hero-title { font-family: var(--display); font-size: clamp(80px, 11.5vw, 160px); line-height: 0.88; letter-spacing: 0.015em; position: relative; z-index: 1; margin-bottom: 48px; }
+  .hero-title .line2 { font-family: var(--serif); font-style: italic; font-size: clamp(68px, 9.5vw, 132px); color: var(--text-secondary); display: block; }
+  .hero-title .line3 { color: var(--accent); display: block; }
+  .hero-bottom { display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 40px; padding-top: 48px; border-top: 1px solid var(--border); position: relative; z-index: 1; }
+  .hero-desc { max-width: 500px; color: var(--text-secondary); line-height: 1.9; font-size: 13px; }
+  .hero-desc strong { color: var(--text-primary); font-weight: 400; }
+  .hero-stats { display: flex; gap: 40px; }
+  .stat-item { text-align: right; }
+  .stat-num { font-family: var(--display); font-size: 48px; color: var(--text-primary); line-height: 1; letter-spacing: 0.02em; }
+  .stat-num em { color: var(--accent); font-style: normal; }
+  .stat-label { font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); margin-top: 4px; }
+
+  section { padding: 88px 48px; border-bottom: 1px solid var(--border); }
+  .section-header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 56px; }
+  .section-eyebrow { font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-muted); display: flex; align-items: center; gap: 10px; }
+  .section-eyebrow::before { content:''; width:18px; height:1px; background:var(--text-muted); }
+  .section-title { font-family: var(--display); font-size: clamp(40px, 5.5vw, 72px); letter-spacing: 0.02em; line-height: 1; }
+
+  .about-grid { display: grid; grid-template-columns: 3fr 2fr; gap: 64px; align-items: start; }
+  .about-lead { font-family: var(--serif); font-style: italic; font-size: clamp(18px, 2.2vw, 26px); line-height: 1.5; color: var(--text-primary); margin-bottom: 28px; border-left: 2px solid var(--accent); padding-left: 24px; }
+  .about-body { color: var(--text-secondary); line-height: 1.9; margin-bottom: 14px; font-size: 13px; }
+  .tag-row { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 28px; }
+  .tag { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; padding: 5px 12px; border: 1px solid var(--border-bright); color: var(--text-secondary); transition: all 0.2s; }
+  .tag:hover, .tag.hi { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
+  .about-sidebar { display: flex; flex-direction: column; gap: 10px; }
+  .info-row { display: flex; justify-content: space-between; align-items: center; padding: 13px 16px; background: var(--surface); border: 1px solid var(--border); }
+  .info-key { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); }
+  .info-val { font-size: 11px; color: var(--text-secondary); }
+  .info-val.live { color: var(--accent); display: flex; align-items: center; gap: 6px; }
+  .info-val.live::before { content:''; width:5px; height:5px; border-radius:50%; background:var(--accent); animation: blink 1.8s infinite; }
+  .cert-block { padding: 18px; background: var(--surface); border: 1px solid var(--border); border-left: 2px solid var(--gold); }
+  .cert-label { font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); margin-bottom: 10px; }
+  .cert-item { font-size: 11px; color: var(--text-secondary); line-height: 1.7; margin-bottom: 8px; padding-left: 14px; position: relative; }
+  .cert-item::before { content:'◆'; position:absolute; left:0; top:2px; font-size:6px; color:var(--gold); }
+
+  .platforms-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); }
+  .platform-card { background: var(--bg); padding: 32px 22px 28px; transition: background 0.25s; position: relative; overflow: hidden; }
+  .platform-card:hover { background: var(--surface); }
+  .platform-card::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background: var(--accent); transform: scaleX(0); transform-origin: left; transition: transform 0.3s ease; }
+  .platform-card:hover::after { transform: scaleX(1); }
+  .platform-num { font-family: var(--display); font-size: 48px; color: var(--text-muted); opacity: 0.2; line-height: 1; margin-bottom: -2px; }
+  .platform-tag { font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; }
+  .platform-name { font-family: var(--display); font-size: 20px; letter-spacing: 0.05em; margin-bottom: 12px; color: var(--text-primary); line-height: 1.1; }
+  .platform-desc { font-size: 11px; color: var(--text-muted); line-height: 1.8; }
+  .platform-card.new .platform-name { color: var(--accent); }
+  .platform-card.new .platform-tag { color: var(--gold); }
+  .new-badge { display: inline-block; font-size: 8px; letter-spacing: 0.12em; text-transform: uppercase; padding: 3px 8px; background: rgba(212,169,106,0.12); color: var(--gold); border: 1px solid rgba(212,169,106,0.3); margin-bottom: 6px; }
+
+  .skills-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); }
+  .skill-card { background: var(--bg); padding: 30px 26px; transition: background 0.2s; position: relative; overflow: hidden; }
+  .skill-card:hover { background: var(--surface); }
+  .skill-card-n { font-family: var(--display); font-size: 56px; position: absolute; top: 12px; right: 18px; color: var(--text-muted); opacity: 0.18; line-height: 1; }
+  .skill-cat { font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; }
+  .skill-name { font-family: var(--display); font-size: 23px; letter-spacing: 0.04em; margin-bottom: 14px; }
+  .skill-items { list-style: none; color: var(--text-muted); font-size: 11px; line-height: 2.1; }
+  .skill-items li::before { content: '→ '; color: var(--accent); }
+  .skill-bar-wrap { margin-top: 16px; }
+  .skill-bar-label { display: flex; justify-content: space-between; font-size: 10px; color: var(--text-muted); margin-bottom: 5px; }
+  .skill-bar { height: 1px; background: var(--border-bright); }
+  .skill-bar-fill { height: 100%; background: var(--accent); transform: scaleX(0); transform-origin: left; transition: transform 1.4s cubic-bezier(0.16,1,0.3,1); }
+  .skill-bar-fill.animate { transform: scaleX(1); }
+
+  .metrics-strip { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); }
+  .metric-cell { background: var(--bg); padding: 36px 24px; text-align: center; transition: background 0.2s; }
+  .metric-cell:hover { background: var(--surface2); }
+  .metric-val { font-family: var(--display); font-size: 54px; color: var(--accent); line-height: 1; margin-bottom: 6px; }
+  .metric-label { font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); }
+
+  .exp-item { display: grid; grid-template-columns: 220px 1fr; gap: 48px; padding: 48px 0; border-bottom: 1px solid var(--border); }
+  .exp-item:last-child { border-bottom: none; }
+  .exp-period { font-size: 11px; letter-spacing: 0.08em; color: var(--accent); margin-bottom: 6px; }
+  .exp-co { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 4px; }
+  .exp-loc { font-size: 10px; color: var(--text-muted); }
+  .exp-role { font-family: var(--display); font-size: 24px; letter-spacing: 0.04em; margin-bottom: 6px; }
+  .exp-tagline { font-size: 11px; color: var(--text-muted); margin-bottom: 22px; }
+  .exp-points { list-style: none; }
+  .exp-points li { font-size: 12px; color: var(--text-secondary); line-height: 1.85; padding: 7px 0 7px 16px; border-bottom: 1px solid var(--border); position: relative; }
+  .exp-points li:last-child { border-bottom: none; }
+  .exp-points li::before { content: ''; position: absolute; left: 0; top: 15px; width: 7px; height: 1px; background: var(--accent); }
+  .exp-points li strong { color: var(--text-primary); font-weight: 400; }
+
+  .edu-list { display: flex; flex-direction: column; gap: 1px; background: var(--border); border: 1px solid var(--border); }
+  .edu-row { display: grid; grid-template-columns: 1fr auto auto; align-items: center; gap: 40px; background: var(--bg); padding: 28px 32px; transition: background 0.2s; }
+  .edu-row:hover { background: var(--surface); }
+  .edu-degree { font-family: var(--display); font-size: 22px; letter-spacing: 0.04em; margin-bottom: 4px; }
+  .edu-school { font-size: 11px; color: var(--text-muted); }
+  .edu-score { font-family: var(--display); font-size: 36px; color: var(--accent); letter-spacing: 0.04em; text-align: right; }
+  .edu-score-label { font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); text-align: right; }
+  .edu-year { font-size: 10px; letter-spacing: 0.1em; color: var(--text-muted); white-space: nowrap; }
+
+  .ai-block { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--accent); padding: 40px; display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
+  .ai-title { font-family: var(--display); font-size: 36px; letter-spacing: 0.04em; margin-bottom: 14px; }
+  .ai-body { color: var(--text-secondary); font-size: 13px; line-height: 1.9; }
+  .ai-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .ai-chip { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; padding: 6px 14px; border: 1px solid rgba(78,255,145,0.25); color: var(--accent); background: var(--accent-dim); }
+
+  #contact { text-align: center; padding: 110px 48px; background: var(--surface); position: relative; overflow: hidden; }
+  #contact::before { content: 'HIRE ME'; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); font-family: var(--display); font-size: 28vw; color: rgba(255,255,255,0.02); white-space: nowrap; pointer-events: none; letter-spacing: 0.04em; }
+  .contact-title { font-family: var(--display); font-size: clamp(52px, 9vw, 112px); letter-spacing: 0.02em; line-height: 0.9; margin-bottom: 48px; position: relative; z-index: 1; }
+  .contact-title .muted { color: var(--text-muted); }
+  .contact-links { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; position: relative; z-index: 1; }
+  .contact-link { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-secondary); text-decoration: none; padding: 14px 26px; border: 1px solid var(--border-bright); transition: all 0.2s; display: flex; align-items: center; gap: 10px; }
+  .contact-link:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
+  .contact-link .arr { color: var(--accent); }
+
+  footer { padding: 22px 48px; display: flex; align-items: center; justify-content: space-between; border-top: 1px solid var(--border); }
+  footer p { font-size: 10px; letter-spacing: 0.08em; color: var(--text-muted); }
+  .footer-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--accent); animation: blink 2s infinite; }
+
+  .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.65s ease, transform 0.65s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 900px) {
+    nav { padding: 16px 22px; } .nav-links { display: none; }
+    .hero, section, #contact, footer { padding-left: 22px; padding-right: 22px; }
+    .hero { padding-top: 110px; padding-bottom: 40px; }
+    .hero-bottom { grid-template-columns: 1fr; }
+    .hero-stats { justify-content: flex-start; gap: 24px; }
+    .about-grid { grid-template-columns: 1fr; }
+    .platforms-grid { grid-template-columns: repeat(2, 1fr); }
+    .skills-grid { grid-template-columns: 1fr; }
+    .metrics-strip { grid-template-columns: repeat(3, 1fr); }
+    .exp-item { grid-template-columns: 1fr; gap: 16px; }
+    .edu-row { grid-template-columns: 1fr; }
+    .ai-block { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="#">SB<span>.</span></a>
+  <div class="nav-links">
+    <a href="#about">About</a>
+    <a href="#platforms">Platforms</a>
+    <a href="#skills">Skills</a>
+    <a href="#experience">Experience</a>
+    <a href="#education">Education</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <div class="nav-badge">Open to Roles</div>
+</nav>
+
+<div class="hero">
+  <p class="hero-eyebrow">Clinical Systems QA · Hyderabad, India</p>
+  <h1 class="hero-title">
+    BALINA
+    <span class="line2">Surya</span>
+    <span class="line3">QA ENGINEER</span>
+  </h1>
+  <div class="hero-bottom">
+    <p class="hero-desc">
+      <strong>Clinical Systems QA Analyst</strong> at Clinion IT Services — validating EDC, RTSM/IWRS, CSR Automation, CTMS and ePRO platforms against regulatory standards. Merging foundational STLC expertise with <strong>AI-Augmented Test Automation</strong> and GenAI tooling to build smarter, faster, more robust quality pipelines.
+    </p>
+    <div class="hero-stats">
+      <div class="stat-item"><div class="stat-num">5<em>+</em></div><div class="stat-label">Clinical Platforms</div></div>
+      <div class="stat-item"><div class="stat-num">8.72<em>/10</em></div><div class="stat-label">CGPA</div></div>
+      <div class="stat-item"><div class="stat-num">1.5<em>yr</em></div><div class="stat-label">Experience</div></div>
+    </div>
+  </div>
+</div>
+
+<section id="about">
+  <div class="section-header">
+    <span class="section-eyebrow">01 — Profile</span>
+    <h2 class="section-title">ABOUT ME</h2>
+  </div>
+  <div class="about-grid reveal">
+    <div>
+      <p class="about-lead">"Building smarter QA frameworks where clinical compliance meets AI-driven automation."</p>
+      <p class="about-body">I'm a dedicated Software Testing Professional specialising in clinical trial software — platforms where data accuracy isn't a preference, it's a regulatory requirement. At Clinion IT Services I validate systems that power real-world clinical research, working across EDC, randomisation (RTSM/IWRS), CSR automation, CTMS and ePRO.</p>
+      <p class="about-body">Beyond traditional STLC, I'm actively upskilling in <strong style="color:var(--text-primary);font-weight:400">AI Agentics and AI-Augmented Test Automation</strong> — certified by Udemy in applying GenAI tools and AI Agents for software testing — with a clear goal: merge foundational QA rigour with next-generation intelligent tooling.</p>
+      <p class="about-body">Published researcher (IJSREM) on Web Browser Control via Hand Gesture Recognition. Fluent in English, Telugu, and Hindi.</p>
+      <div class="tag-row">
+        <span class="tag hi">Selenium</span><span class="tag hi">Java</span><span class="tag hi">SQL</span>
+        <span class="tag hi">AI-Augmented QA</span><span class="tag">Manual Testing</span>
+        <span class="tag">Azure DevOps</span><span class="tag">Defect Tracking</span>
+        <span class="tag">STLC</span><span class="tag">Regulatory Compliance</span><span class="tag">UAT</span>
+      </div>
+    </div>
+    <div class="about-sidebar">
+      <div class="info-row"><span class="info-key">Status</span><span class="info-val live">Open to opportunities</span></div>
+      <div class="info-row"><span class="info-key">Location</span><span class="info-val">Hyderabad, Telangana</span></div>
+      <div class="info-row"><span class="info-key">Current Role</span><span class="info-val">Clinical Systems QA Analyst</span></div>
+      <div class="info-row"><span class="info-key">Company</span><span class="info-val">Clinion IT Services</span></div>
+      <div class="info-row"><span class="info-key">Domain</span><span class="info-val">Healthcare / Clinical Trials</span></div>
+      <div class="info-row"><span class="info-key">Languages</span><span class="info-val">English · Telugu · Hindi</span></div>
+      <div class="cert-block">
+        <div class="cert-label">Certifications</div>
+        <div class="cert-item">Published in IJSREM — Web Browser Control via Hand Gesture Recognition</div>
+        <div class="cert-item">Applying GenAI Tools &amp; AI Agents for Software Testing — Udemy</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="platforms">
+  <div class="section-header">
+    <span class="section-eyebrow">02 — Domain Expertise</span>
+    <h2 class="section-title">CLINICAL PLATFORMS</h2>
+  </div>
+  <div class="platforms-grid reveal">
+    <div class="platform-card">
+      <div class="platform-num">01</div>
+      <div class="platform-tag">Data Capture</div>
+      <div class="platform-name">EDC</div>
+      <p class="platform-desc">Electronic Data Capture — validates real-time collection of clinical trial data, data validation checks, audit trails, and transfer to statistical analysis databases. Replaces paper CRFs with compliant digital workflows.</p>
+    </div>
+    <div class="platform-card">
+      <div class="platform-num">02</div>
+      <div class="platform-tag">Randomisation</div>
+      <div class="platform-name">RTSM / IWRS</div>
+      <p class="platform-desc">Real-Time System Management / Interactive Web Response System — QA of patient randomisation and trial supply management workflows ensuring accurate treatment allocation and blinding integrity.</p>
+    </div>
+    <div class="platform-card">
+      <div class="platform-num">03</div>
+      <div class="platform-tag">Regulatory Docs</div>
+      <div class="platform-name">CSR AUTO</div>
+      <p class="platform-desc">Clinical Study Report Automation — testing automated generation of formal regulatory documents submitted to FDA, EMA, and PMDA. Ensures data narrative accuracy, statistical alignment, and submission readiness.</p>
+    </div>
+    <div class="platform-card new">
+      <div class="new-badge">+ Added</div>
+      <div class="platform-num">04</div>
+      <div class="platform-tag">Trial Management</div>
+      <div class="platform-name">CTMS</div>
+      <p class="platform-desc">Clinical Trial Management System — validates end-to-end trial lifecycle management: site management, patient enrolment tracking, milestone monitoring, and regulatory submission tracking across multi-site studies.</p>
+    </div>
+    <div class="platform-card new">
+      <div class="new-badge">+ Added</div>
+      <div class="platform-num">05</div>
+      <div class="platform-tag">Patient Data</div>
+      <div class="platform-name">ePRO</div>
+      <p class="platform-desc">Electronic Patient-Reported Outcomes — QA of mobile apps capturing patient symptoms, quality of life metrics, and treatment adherence directly from participants in real-time, with 21 CFR Part 11 compliance validation.</p>
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="section-header">
+    <span class="section-eyebrow">03 — Capabilities</span>
+    <h2 class="section-title">SKILLS</h2>
+  </div>
+  <div class="skills-grid reveal">
+    <div class="skill-card"><div class="skill-card-n">01</div><div class="skill-cat">Automation</div><div class="skill-name">TEST AUTOMATION</div><ul class="skill-items"><li>Selenium WebDriver</li><li>Java (OOP / Test Scripts)</li><li>Automated Regression Suites</li><li>Script Writing &amp; Maintenance</li></ul><div class="skill-bar-wrap"><div class="skill-bar-label"><span>Proficiency</span><span>82%</span></div><div class="skill-bar"><div class="skill-bar-fill" style="width:82%"></div></div></div></div>
+    <div class="skill-card"><div class="skill-card-n">02</div><div class="skill-cat">Manual QA</div><div class="skill-name">TESTING TYPES</div><ul class="skill-items"><li>Sanity, Smoke, Regression</li><li>Functional &amp; GUI Testing</li><li>UAT &amp; Exploratory</li><li>Severity &amp; Priority Classification</li></ul><div class="skill-bar-wrap"><div class="skill-bar-label"><span>Proficiency</span><span>92%</span></div><div class="skill-bar"><div class="skill-bar-fill" style="width:92%"></div></div></div></div>
+    <div class="skill-card"><div class="skill-card-n">03</div><div class="skill-cat">Backend</div><div class="skill-name">SQL &amp; DATA</div><ul class="skill-items"><li>Database Validation</li><li>Functional &amp; Regression DB Tests</li><li>Query Writing &amp; Joins</li><li>Data Integrity Checks</li></ul><div class="skill-bar-wrap"><div class="skill-bar-label"><span>Proficiency</span><span>85%</span></div><div class="skill-bar"><div class="skill-bar-fill" style="width:85%"></div></div></div></div>
+    <div class="skill-card"><div class="skill-card-n">04</div><div class="skill-cat">Defect Management</div><div class="skill-name">BUG TRACKING</div><ul class="skill-items"><li>Defect Lifecycle Management</li><li>Root-Cause Analysis</li><li>Bug Reporting &amp; Documentation</li><li>Azure DevOps Collaboration</li></ul><div class="skill-bar-wrap"><div class="skill-bar-label"><span>Proficiency</span><span>90%</span></div><div class="skill-bar"><div class="skill-bar-fill" style="width:90%"></div></div></div></div>
+    <div class="skill-card"><div class="skill-card-n">05</div><div class="skill-cat">Process</div><div class="skill-name">STLC &amp; DOCS</div><ul class="skill-items"><li>Test Plans &amp; Strategies</li><li>Traceability Matrix</li><li>Audit-Ready Documentation</li><li>Post-Deployment Support</li></ul><div class="skill-bar-wrap"><div class="skill-bar-label"><span>Proficiency</span><span>88%</span></div><div class="skill-bar"><div class="skill-bar-fill" style="width:88%"></div></div></div></div>
+    <div class="skill-card"><div class="skill-card-n">06</div><div class="skill-cat">Emerging</div><div class="skill-name">AI-AUGMENTED QA</div><ul class="skill-items"><li>GenAI Tools for Testing</li><li>AI Agents (Udemy Certified)</li><li>AI-Driven Test Coverage</li><li>Intelligent Frameworks</li></ul><div class="skill-bar-wrap"><div class="skill-bar-label"><span>Proficiency</span><span>75%</span></div><div class="skill-bar"><div class="skill-bar-fill" style="width:75%"></div></div></div></div>
+  </div>
+</section>
+
+<section style="padding: 64px 48px; border-bottom: 1px solid var(--border);">
+  <div class="metrics-strip reveal">
+    <div class="metric-cell"><div class="metric-val">5</div><div class="metric-label">Clinical Platforms Tested</div></div>
+    <div class="metric-cell"><div class="metric-val">3</div><div class="metric-label">Full STLC Cycles</div></div>
+    <div class="metric-cell"><div class="metric-val">8.72</div><div class="metric-label">B.E. CGPA / 10</div></div>
+    <div class="metric-cell"><div class="metric-val">2</div><div class="metric-label">Certifications Earned</div></div>
+    <div class="metric-cell"><div class="metric-val">21</div><div class="metric-label">CFR Part 11 Aware</div></div>
+  </div>
+</section>
+
+<section id="experience">
+  <div class="section-header">
+    <span class="section-eyebrow">04 — History</span>
+    <h2 class="section-title">EXPERIENCE</h2>
+  </div>
+  <div class="reveal">
+    <div class="exp-item">
+      <div>
+        <div class="exp-period">Nov 2024 — Present</div>
+        <div class="exp-co">Clinion IT Services</div>
+        <div class="exp-loc">Hyderabad, India</div>
+      </div>
+      <div>
+        <div class="exp-role">CLINICAL SYSTEMS QA ANALYST</div>
+        <div class="exp-tagline">EDC · RTSM/IWRS · CSR Automation · CTMS · ePRO</div>
+        <ul class="exp-points">
+          <li>Ensured quality and compliance across <strong>5 specialised clinical trial platforms</strong> — EDC, RTSM/IWRS, CSR Automation, CTMS, and ePRO — validating system functionality against trial protocols and regulatory standards</li>
+          <li>Designed and executed <strong>end-to-end test strategies</strong> encompassing functional, regression, and UAT cycles to safeguard data integrity, accuracy, and system reliability</li>
+          <li>Proactively managed <strong>defect lifecycles and client-reported issues</strong>, improving system functionality and user satisfaction through thorough root-cause analysis and troubleshooting</li>
+          <li>Maintained rigorous documentation — <strong>test plans, test cases, and defect logs</strong> — ensuring full traceability and audit readiness per regulatory requirements (21 CFR Part 11 awareness)</li>
+          <li>Provided <strong>post-deployment stakeholder support</strong> through training, issue resolution, and workflow optimisation recommendations to enhance operational efficiency</li>
+          <li>Wrote and maintained <strong>automated test scripts using Selenium (Java)</strong>, reducing repetitive manual regression overhead across multiple platform releases</li>
+          <li>Leveraged <strong>SQL for database validation</strong> in functional and regression testing to ensure back-end data integrity across all clinical workflows</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="padding: 64px 48px; border-bottom: 1px solid var(--border);">
+  <div class="section-header" style="margin-bottom: 32px;">
+    <span class="section-eyebrow">05 — Future Focus</span>
+    <h2 class="section-title">AI UPSKILLING</h2>
+  </div>
+  <div class="ai-block reveal">
+    <div>
+      <div class="ai-title">AI-AUGMENTED TEST AUTOMATION</div>
+      <p class="ai-body">Actively bridging traditional STLC expertise with intelligent AI tooling. Certified in applying GenAI tools and AI Agents for software testing. Goal: build smarter frameworks that drive higher test coverage, faster release cycles, and more robust software quality — especially in complex, compliance-heavy clinical trial environments.</p>
+    </div>
+    <div class="ai-chips">
+      <span class="ai-chip">GenAI Tools</span><span class="ai-chip">AI Agents</span>
+      <span class="ai-chip">AI Agentics</span><span class="ai-chip">Intelligent Frameworks</span>
+      <span class="ai-chip">Udemy Certified</span><span class="ai-chip">Smarter Coverage</span>
+      <span class="ai-chip">Faster Releases</span>
+    </div>
+  </div>
+</section>
+
+<section id="education">
+  <div class="section-header">
+    <span class="section-eyebrow">06 — Academic</span>
+    <h2 class="section-title">EDUCATION</h2>
+  </div>
+  <div class="edu-list reveal">
+    <div class="edu-row">
+      <div><div class="edu-degree">BACHELOR OF ENGINEERING (B.E) — COMPUTER SCIENCE</div><div class="edu-school">Sri Chandrasekharendra Saraswathi Viswa Mahavidyalaya, Kanchipuram</div></div>
+      <div><div class="edu-score">8.72</div><div class="edu-score-label">CGPA / 10</div></div>
+      <div class="edu-year">2019 — 2023</div>
+    </div>
+    <div class="edu-row">
+      <div><div class="edu-degree">INTERMEDIATE (MPC)</div><div class="edu-school">Sri Gayatri Jr College, Vijayawada</div></div>
+      <div><div class="edu-score">9.92</div><div class="edu-score-label">Score / 10</div></div>
+      <div class="edu-year">2017 — 2019</div>
+    </div>
+    <div class="edu-row">
+      <div><div class="edu-degree">SSC (10TH STANDARD)</div><div class="edu-school">Montessori Public School, Ongole</div></div>
+      <div><div class="edu-score">9.8</div><div class="edu-score-label">Score / 10</div></div>
+      <div class="edu-year">2016 — 2017</div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <h2 class="contact-title">LET'S<br><span class="muted">WORK</span><br>TOGETHER</h2>
+  <div class="contact-links">
+    <a class="contact-link" href="mailto:suryachowdarybalina111@gmail.com"><span class="arr">✉</span> suryachowdarybalina111@gmail.com</a>
+    <a class="contact-link" href="tel:+919133437494"><span class="arr">↗</span> +91 91334 37494</a>
+    <a class="contact-link" href="https://linkedin.com/in/balina-surya-94bba3192" target="_blank"><span class="arr">↗</span> LinkedIn Profile</a>
+  </div>
+</section>
+
+<footer>
+  <p>© 2025 Balina Surya · Clinical QA Engineer · Hyderabad, India</p>
+  <div class="footer-dot"></div>
+  <p>Available for full-time MNC roles · Clinical IT · QA Automation</p>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        entry.target.querySelectorAll('.skill-bar-fill').forEach(bar => bar.classList.add('animate'));
+      }
+    });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
